@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="501.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ccsys.controllers.MainUserWindowControl">
+   <children>
+      <TabPane fx:id="mainTab" prefHeight="411.0" prefWidth="675.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="courseTab" text="Courses">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="376.0" prefWidth="675.0">
+                     <children>
+                        <Label layoutX="23.0" layoutY="14.0" text="Courses:" />
+                        <Label layoutX="189.0" layoutY="14.0" text="Folders:" />
+                        <Label layoutX="498.0" layoutY="14.0" prefWidth="45.0" text="Files:" />
+                        <ListView fx:id="coursesList" layoutX="23.0" layoutY="31.0" onMouseClicked="#selectCourse" prefHeight="321.0" prefWidth="157.0" />
+                        <TreeView fx:id="foldersTree" layoutX="189.0" layoutY="31.0" onMouseClicked="#selectFolder" prefHeight="321.0" prefWidth="300.0" />
+                        <ListView fx:id="filesList" layoutX="498.0" layoutY="31.0" onMouseClicked="#selectFile" prefHeight="321.0" prefWidth="157.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Account settings">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="loginName" layoutX="35.0" layoutY="94.0" prefHeight="25.0" prefWidth="250.0" />
+                        <PasswordField fx:id="password" layoutX="35.0" layoutY="146.0" prefHeight="25.0" prefWidth="250.0" />
+                        <TextField fx:id="name" layoutX="35.0" layoutY="198.0" prefHeight="25.0" prefWidth="250.0" />
+                        <TextField fx:id="surname" layoutX="35.0" layoutY="250.0" prefHeight="25.0" prefWidth="250.0" />
+                        <TextField fx:id="email" layoutX="35.0" layoutY="303.0" prefHeight="25.0" prefWidth="250.0" />
+                        <Label layoutX="35.0" layoutY="181.0" text="Name:" />
+                        <Label layoutX="35.0" layoutY="129.0" text="Password:" />
+                        <Label layoutX="35.0" layoutY="77.0" text="Login name:" />
+                        <Label layoutX="35.0" layoutY="233.0" text="Surname:" />
+                        <Label layoutX="35.0" layoutY="286.0" text="Email:" />
+                        <Button layoutX="508.0" layoutY="278.0" mnemonicParsing="false" onAction="#updateUser" prefHeight="44.0" prefWidth="129.0" text="Update" textFill="RED">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                        <Label layoutX="373.0" layoutY="154.0" text="Enter account new details">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

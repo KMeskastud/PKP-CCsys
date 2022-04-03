@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="322.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ccsys.controllers.LoginControl">
+   <children>
+      <Label layoutX="61.0" layoutY="28.0" text="Welcome to CCsys" textFill="#ff0101">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="28.0" layoutY="96.0" text="Login:" />
+      <TextField fx:id="loginName" layoutX="28.0" layoutY="113.0" prefHeight="25.0" prefWidth="245.0" />
+      <Label layoutX="28.0" layoutY="157.0" text="Password:" />
+      <PasswordField fx:id="password" layoutX="28.0" layoutY="174.0" prefHeight="25.0" prefWidth="245.0" />
+      <Button layoutX="88.0" layoutY="225.0" mnemonicParsing="false" onAction="#ValidateLogin" prefHeight="25.0" prefWidth="126.0" text="Log in">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button layoutX="124.0" layoutY="268.0" mnemonicParsing="false" onAction="#startSignUp" text="Sign up" />
+   </children>
+</AnchorPane>
