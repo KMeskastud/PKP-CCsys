@@ -38,6 +38,30 @@ public class CreateFileControl {
         this.goBack();
     }
 
+    public String applyFile(int folderID, String name) throws SQLException {
+        boolean doesExist = false;
+        for(File file : DbQuerys.getFiles(folderID)) {
+            if (file.getName().equals(name)) {
+                doesExist = true;
+                return("File already exists");
+            }
+        }
+        if(isValidInput(name) == false) {
+            return ("Please fill name field");
+        }
+        if(doesExist == false)
+        {
+            try {
+                DbQuerys.createFile(new File(name, folderID));
+                return("File created");
+            } catch (Exception e) {
+                System.out.println(e);
+                return("Error creating file" + e);
+            }
+        }
+        return ("Failed");
+    }
+
     public void goBack() throws IOException, SQLException {
         if(loggedInUser.getPosition().equals("Super")) {
             FXMLLoader fxmlLoader = new FXMLLoader(Start.class.getResource("main-window-admin.fxml"));
