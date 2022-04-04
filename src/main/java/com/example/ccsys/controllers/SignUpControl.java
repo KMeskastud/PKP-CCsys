@@ -37,16 +37,10 @@ public class SignUpControl {
     private PreparedStatement preparedStatement;
 
     public void startSignUp(ActionEvent actionEvent) throws IOException {
-        try {
-            if (this.isValidInput(this.getLoginName()) && this.isValidInput(this.getPassword()) && this.isValidInput(this.getName()) && this.isValidInput(this.getSurname())
-                    && this.isValidInput(this.getEmail()) && this.isValidInput(this.getUserType())) {
-                DbQuerys.createUser(new User(this.getLoginName(), this.getPassword(), this.getUserType(), this.getName(), this.getSurname(), this.getEmail()));
-                this.returnToPrevious();
-                LoginControl.alertMessage("User created");
-            }
-        }  catch (Exception e) {
-            LoginControl.alertMessage("User not created" + e);
-        }
+        String msg = signUp(this.getLoginName(), this.getPassword(), this.getName(), this.getSurname(), this.getEmail(), this.getUserType());
+        LoginControl.alertMessage(msg);
+        if(msg.equals("User created"))
+            this.returnToPrevious();
     }
 
     public String signUp(String loginName, String password, String name, String surname, String email, String userType) throws IOException {
@@ -67,6 +61,8 @@ public class SignUpControl {
         }
         return ("Failed");
     }
+
+
 
     private void returnToPrevious() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Start.class.getResource("login-window.fxml"));
