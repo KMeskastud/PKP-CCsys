@@ -49,6 +49,25 @@ public class SignUpControl {
         }
     }
 
+    public String signUp(String loginName, String password, String name, String surname, String email, String userType) throws IOException {
+        try {
+            if(DbQuerys.doesUserNameExist(loginName) == true)
+                return("User already exists");
+            if (    this.isValidInput(loginName) &&
+                    this.isValidInput(password) &&
+                    this.isValidInput(name) &&
+                    this.isValidInput(surname) &&
+                    this.isValidInput(email) &&
+                    this.isValidInput(userType)) {
+                DbQuerys.createUser(new User(loginName, password, userType, name, surname, email));
+                return("User created");
+            }
+        }  catch (Exception e) {
+            return("User not created" + e);
+        }
+        return ("Failed");
+    }
+
     private void returnToPrevious() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Start.class.getResource("login-window.fxml"));
         Parent root = fxmlLoader.load();
