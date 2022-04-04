@@ -29,25 +29,35 @@ public class CreateCourseControl {
     }
 
     public void createCourse(ActionEvent actionEvent) throws IOException, SQLException {
+        LoginControl.alertMessage(applyCourse(this.courseName.getText(), this.courseDescription.getText(), this.loggedInUser));
+        this.goBack();
+    }
+
+    public String applyCourse(String name, String description, User currentUser) throws IOException, SQLException {
         boolean doesExist = false;
         for(Course course : DbQuerys.getAllCourses()) {
-            if (course.getName().equals(this.courseName.getText())) {
-                LoginControl.alertMessage("Course already exists");
+            if (course.getName().equals(name)) {
                 doesExist = true;
-                break;
+                return ("Course already exists");
             }
+        }
+        if(isValidInput(name) == false) {
+            return ("Please fill name field");
+        }
+        if(isValidInput(description) == false) {
+            return ("Please fill description field");
         }
         if(doesExist == false)
         {
             try {
-                DbQuerys.createCourse(new Course(this.courseName.getText(), this.courseDescription.getText()), this.loggedInUser);
-                LoginControl.alertMessage("Course created");
+                DbQuerys.createCourse(new Course(name, description), currentUser);
+                return ("Course created");
             } catch (Exception e) {
                 System.out.println(e);
-                LoginControl.alertMessage("Error creating Course" + e);
+                return ("Error creating Course" + e);
             }
         }
-        this.goBack();
+        return ("Failed");
     }
 
     private boolean isValidInput(String input) {
