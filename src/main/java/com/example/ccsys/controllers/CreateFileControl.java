@@ -34,25 +34,38 @@ public class CreateFileControl {
     }
 
     public void createFile(ActionEvent actionEvent) throws SQLException, IOException   {
+        LoginControl.alertMessage(applyFile(selectedFolderId, this.fileName.getText()));
+        this.goBack();
+    }
+
+    public String applyFile(int folderID, String name) throws SQLException {
         boolean doesExist = false;
-        for(File file : DbQuerys.getFiles(selectedFolderId)) {
-            if (file.getName().equals(this.fileName.getText())) {
-                LoginControl.alertMessage("File already exists");
+        for(File file : DbQuerys.getFiles(folderID)) {
+            if (file.getName().equals(name)) {
                 doesExist = true;
-                break;
+                return("File already exists");
             }
+        }
+        if(isValidInput(name) == false) {
+            return ("Please fill name field");
         }
         if(doesExist == false)
         {
             try {
-                DbQuerys.createFile(new File(this.fileName.getText(), selectedFolderId));
-                LoginControl.alertMessage("File created");
+                DbQuerys.createFile(new File(name, folderID));
+                return("File created");
             } catch (Exception e) {
                 System.out.println(e);
-                LoginControl.alertMessage("Error creating file" + e);
+                return("Error creating file" + e);
             }
         }
-        this.goBack();
+        return ("Failed");
+    }
+
+    private boolean isValidInput(String input) {
+        if (input.length() == 0)
+            return false;
+        return true;
     }
 
     public void goBack() throws IOException, SQLException {
