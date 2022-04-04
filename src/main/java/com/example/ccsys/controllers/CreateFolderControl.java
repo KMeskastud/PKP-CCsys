@@ -37,7 +37,7 @@ public class CreateFolderControl {
         this.selectedFolderId = folderId;
     }
 
-    public void createFolder(ActionEvent actionEvent) throws SQLException, IOException   {
+    /*public void createFolder(ActionEvent actionEvent) throws SQLException, IOException   {
         boolean doesExist = false;
         for(Folder folder : DbQuerys.getFolders(selectedCourse.getId())) {
             if (folder.getName().equals(this.folderName.getText())) {
@@ -56,9 +56,37 @@ public class CreateFolderControl {
             }
         }
         this.goBack();
+    }*/
+
+    public void createFolder(ActionEvent actionEvent) throws SQLException, IOException {
+        LoginControl.alertMessage(applyFolder(this.selectedCourse.getId(), this.selectedFolderId, this.folderName.getText()));
+        this.goBack();
     }
 
-  private boolean isValidInput(String input) {
+    public String applyFolder(int courseID, int folderID, String name) throws SQLException, IOException {
+        boolean doesExist = false;
+        for(Folder folder : DbQuerys.getFolders(courseID)) {
+            if (folder.getName().equals(name)) {
+                doesExist = true;
+                return("Folder already exists");
+            }
+        }
+        if(isValidInput(name) == false) {
+            return ("Please fill name field");
+        }
+        if(doesExist == false)
+        {
+            try {
+                DbQuerys.createFolder(new Folder(folderID, courseID, name));
+                return("Folder created");
+            } catch (Exception e) {
+                return("Error creating folder" + e);
+            }
+        }
+        return ("Failed");
+    }
+
+    private boolean isValidInput(String input) {
         if (input.length() == 0)
             return false;
         return true;
