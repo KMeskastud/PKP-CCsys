@@ -1,3 +1,6 @@
+/*failas skirtas registracijos funkcionalumo igyvendinimui
+Kursu valdymo sistemai*/
+
 package com.example.ccsys.controllers;
 
 import com.example.ccsys.Start;
@@ -61,7 +64,6 @@ public class SignUpControl {
         }
         return ("Failed");
     }
-
 
 
     private void returnToPrevious() throws IOException {
