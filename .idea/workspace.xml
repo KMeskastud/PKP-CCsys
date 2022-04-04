@@ -9,7 +9,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="a370c541-448d-4e00-b23c-3dfc670c83db" name="Changes" comment="" />
+=======
+    <list default="true" id="a370c541-448d-4e00-b23c-3dfc670c83db" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/ccsys/controllers/CreateCourseControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/ccsys/controllers/CreateCourseControl.java" afterDir="false" />
+    </list>
+>>>>>>> Stashed changes
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -204,7 +211,12 @@
       <workItem from="1649000687800" duration="2208000" />
       <workItem from="1649016033763" duration="790000" />
       <workItem from="1649017654857" duration="222000" />
+<<<<<<< Updated upstream
       <workItem from="1649080785915" duration="467000" />
+=======
+      <workItem from="1649097221736" duration="43000" />
+      <workItem from="1649097289843" duration="1067000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
