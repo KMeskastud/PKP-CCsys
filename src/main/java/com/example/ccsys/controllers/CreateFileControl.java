@@ -62,6 +62,12 @@ public class CreateFileControl {
         return ("Failed");
     }
 
+    private boolean isValidInput(String input) {
+        if (input.length() == 0)
+            return false;
+        return true;
+    }
+
     public void goBack() throws IOException, SQLException {
         if(loggedInUser.getPosition().equals("Super")) {
             FXMLLoader fxmlLoader = new FXMLLoader(Start.class.getResource("main-window-admin.fxml"));
