@@ -44,14 +44,40 @@ public class LoginControl {
         if (user.getPosition().equals("Student") && user != null)
         {
             alertMessage("Logged in as Student");
+            FXMLLoader fxmlLoader = new FXMLLoader(Start.class.getResource("main-user-window.fxml"));
+            Parent root = fxmlLoader.load();
+            MainUserWindowControl mainUserWindowControl = fxmlLoader.getController();
+            mainUserWindowControl.setLoggedInUser(user);
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) this.loginName.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
         }
         else if (user.getPosition().equals("Lecturer") && user != null)
         {
             alertMessage("Logged in as Lecturer");
+            FXMLLoader fxmlLoader = new FXMLLoader(Start.class.getResource("main-window.fxml"));
+            Parent root = fxmlLoader.load();
+            MainWindowControl mainWindowControl = fxmlLoader.getController();
+            mainWindowControl.setLoggedInUser(user);
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) this.loginName.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+
         }
         else if (user != null && user.getPosition().equals("Super"))
         {
             alertMessage("Logged in as SuperAdmin");
+            FXMLLoader fxmlLoader = new FXMLLoader(Start.class.getResource("main-window-admin.fxml"));
+            Parent root = fxmlLoader.load();
+            MainAdminWindowControl mainWindowControl = fxmlLoader.getController();
+            mainWindowControl.setLoggedInUser(user);
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) this.loginName.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+
         }
         else
             alertMessage("Bad credentials");

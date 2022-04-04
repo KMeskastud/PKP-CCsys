@@ -2,6 +2,7 @@ package com.example.ccsys.controllers;
 
 import com.example.ccsys.Start;
 import com.example.ccsys.ds.Course;
+import com.example.ccsys.ds.Folder;
 import com.example.ccsys.ds.User;
 import com.example.ccsys.utils.DbQuerys;
 import javafx.event.ActionEvent;
@@ -15,39 +16,59 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class CreateCourseControl {
+public class CreateFolderControl {
 
     @FXML
-    public TextField courseName;
-    @FXML
-    public TextField courseDescription;
+    public TextField folderName;
 
     private User loggedInUser;
+    private Course selectedCourse;
+    private int selectedFolderId;
 
     public void setLoggedInUser(User user) throws SQLException {
         this.loggedInUser = user;
     }
 
-    public void createCourse(ActionEvent actionEvent) throws IOException, SQLException {
+    public void setSelectedCourse(Course course) throws SQLException {
+        this.selectedCourse = course;
+    }
+
+    public void setSelectedFolderId(int folderId) throws SQLException {
+        this.selectedFolderId = folderId;
+    }
+
+    public void createFolder(ActionEvent actionEvent) throws SQLException, IOException {
+        LoginControl.alertMessage(applyFolder(this.selectedCourse.getId(), this.selectedFolderId, this.folderName.getText()));
+        this.goBack();
+    }
+
+    public String applyFolder(int courseID, int folderID, String name) throws SQLException, IOException {
         boolean doesExist = false;
-        for(Course course : DbQuerys.getAllCourses()) {
-            if (course.getName().equals(this.courseName.getText())) {
-                LoginControl.alertMessage("Course already exists");
+        for(Folder folder : DbQuerys.getFolders(courseID)) {
+            if (folder.getName().equals(name)) {
                 doesExist = true;
-                break;
+                return("Folder already exists");
             }
+        }
+        if(isValidInput(name) == false) {
+            return ("Please fill name field");
         }
         if(doesExist == false)
         {
             try {
-                DbQuerys.createCourse(new Course(this.courseName.getText(), this.courseDescription.getText()), this.loggedInUser);
-                LoginControl.alertMessage("Course created");
+                DbQuerys.createFolder(new Folder(folderID, courseID, name));
+                return("Folder created");
             } catch (Exception e) {
-                System.out.println(e);
-                LoginControl.alertMessage("Error creating Course" + e);
+                return("Error creating folder" + e);
             }
         }
-        this.goBack();
+        return ("Failed");
+    }
+
+    private boolean isValidInput(String input) {
+        if (input.length() == 0)
+            return false;
+        return true;
     }
 
     public void goBack() throws IOException, SQLException {
@@ -57,7 +78,7 @@ public class CreateCourseControl {
             Scene scene = new Scene(root);
             MainAdminWindowControl mainCoursesWindow = fxmlLoader.getController();
             mainCoursesWindow.setLoggedInUser(this.loggedInUser);
-            Stage stage = (Stage) this.courseName.getScene().getWindow();
+            Stage stage = (Stage) this.folderName.getScene().getWindow();
             stage.setScene(scene);
             stage.show();
         }
@@ -67,7 +88,7 @@ public class CreateCourseControl {
             Scene scene = new Scene(root);
             MainWindowControl mainCoursesWindow = fxmlLoader.getController();
             mainCoursesWindow.setLoggedInUser(this.loggedInUser);
-            Stage stage = (Stage) this.courseName.getScene().getWindow();
+            Stage stage = (Stage) this.folderName.getScene().getWindow();
             stage.setScene(scene);
             stage.show();
         }
