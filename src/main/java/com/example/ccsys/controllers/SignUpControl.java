@@ -1,3 +1,6 @@
+/*failas skirtas registracijos funkcionalumo igyvendinimui
+Kursu valdymo sistemai*/
+
 package com.example.ccsys.controllers;
 
 import com.example.ccsys.Start;
@@ -37,17 +40,31 @@ public class SignUpControl {
     private PreparedStatement preparedStatement;
 
     public void startSignUp(ActionEvent actionEvent) throws IOException {
+        String msg = signUp(this.getLoginName(), this.getPassword(), this.getName(), this.getSurname(), this.getEmail(), this.getUserType());
+        LoginControl.alertMessage(msg);
+        if(msg.equals("User created"))
+            this.returnToPrevious();
+    }
+
+    public String signUp(String loginName, String password, String name, String surname, String email, String userType) throws IOException {
         try {
-            if (this.isValidInput(this.getLoginName()) && this.isValidInput(this.getPassword()) && this.isValidInput(this.getName()) && this.isValidInput(this.getSurname())
-                    && this.isValidInput(this.getEmail()) && this.isValidInput(this.getUserType())) {
-                DbQuerys.createUser(new User(this.getLoginName(), this.getPassword(), this.getUserType(), this.getName(), this.getSurname(), this.getEmail()));
-                this.returnToPrevious();
-                LoginControl.alertMessage("User created");
+            if(DbQuerys.doesUserNameExist(loginName) == true)
+                return("User already exists");
+            if (    this.isValidInput(loginName) &&
+                    this.isValidInput(password) &&
+                    this.isValidInput(name) &&
+                    this.isValidInput(surname) &&
+                    this.isValidInput(email) &&
+                    this.isValidInput(userType)) {
+                DbQuerys.createUser(new User(loginName, password, userType, name, surname, email));
+                return("User created");
             }
         }  catch (Exception e) {
-            LoginControl.alertMessage("User not created" + e);
+            return("User not created" + e);
         }
+        return ("Failed");
     }
+
 
     private void returnToPrevious() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Start.class.getResource("login-window.fxml"));
