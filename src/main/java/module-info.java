@@ -8,9 +8,12 @@ module com.example.ccsys {
     requires mysql.connector.java;
     requires spring.core;
     requires com.fasterxml.jackson.databind;
+    requires junit;
 
     opens com.example.ccsys to javafx.fxml;
     exports com.example.ccsys;
     exports com.example.ccsys.controllers;
     opens com.example.ccsys.controllers to javafx.fxml;
+    exports com.example.ccsys.tests;
+    opens com.example.ccsys.tests to javafx.fxml;
 }
