@@ -57,33 +57,33 @@ public class DbQuerys {
     }
 
     public static void createUser(User user) throws SQLException{
-            connection = DbUtils.connectToDb();
-            String insertString = "INSERT INTO user(`login`, `password`, `person_name`, `person_surname`, `person_position`, `person_email`) VALUES (?,?,?,?,?,?)";
-            preparedStatement = connection.prepareStatement(insertString);
-            preparedStatement.setString(1, user.getLogin());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setString(3, user.getName());
-            preparedStatement.setString(4, user.getSurname());
-            preparedStatement.setString(5, user.getPosition());
-            preparedStatement.setString(6, user.getEmail());
-            preparedStatement.execute();
-            DbUtils.disconnectFromDb(connection, preparedStatement);
+        connection = DbUtils.connectToDb();
+        String insertString = "INSERT INTO user(`login`, `password`, `person_name`, `person_surname`, `person_position`, `person_email`) VALUES (?,?,?,?,?,?)";
+        preparedStatement = connection.prepareStatement(insertString);
+        preparedStatement.setString(1, user.getLogin());
+        preparedStatement.setString(2, user.getPassword());
+        preparedStatement.setString(3, user.getName());
+        preparedStatement.setString(4, user.getSurname());
+        preparedStatement.setString(5, user.getPosition());
+        preparedStatement.setString(6, user.getEmail());
+        preparedStatement.execute();
+        DbUtils.disconnectFromDb(connection, preparedStatement);
     }
 
     public static void editUser(String loginName, String password, String name, String surname, String email, int id) throws SQLException{
-            connection = DbUtils.connectToDb();
-            String insertString = "UPDATE user SET login = '" + loginName + "', password = '" + password + "', person_name = '" + name + "', person_surname = '" + surname + "', person_email = '" + email + "' where id = '" + id + "'";
-            preparedStatement = connection.prepareStatement(insertString);
-            preparedStatement.execute();
-            DbUtils.disconnectFromDb(connection, preparedStatement);
+        connection = DbUtils.connectToDb();
+        String insertString = "UPDATE user SET login = '" + loginName + "', password = '" + password + "', person_name = '" + name + "', person_surname = '" + surname + "', person_email = '" + email + "' where id = '" + id + "'";
+        preparedStatement = connection.prepareStatement(insertString);
+        preparedStatement.execute();
+        DbUtils.disconnectFromDb(connection, preparedStatement);
     }
 
     public static void resetUser(int id, String password) throws SQLException {
-            connection = DbUtils.connectToDb();
-            String insertString = "UPDATE user SET password = '" + password + "' where id = '" + id + "'";
-            preparedStatement = connection.prepareStatement(insertString);
-            preparedStatement.execute();
-            DbUtils.disconnectFromDb(connection, preparedStatement);
+        connection = DbUtils.connectToDb();
+        String insertString = "UPDATE user SET password = '" + password + "' where id = '" + id + "'";
+        preparedStatement = connection.prepareStatement(insertString);
+        preparedStatement.execute();
+        DbUtils.disconnectFromDb(connection, preparedStatement);
     }
 
     public static void deleteUser(int id) throws SQLException{
@@ -143,6 +143,28 @@ public class DbQuerys {
         return users;
     }
 
+    public static boolean doesUserNameExist (String name) throws SQLException {//testing
+        connection = DbUtils.connectToDb();
+        statement = connection.createStatement();
+        String query = "SELECT login FROM user";
+        ResultSet rs = statement.executeQuery(query);
+
+        while (rs.next()) {
+            if(name.equals(rs.getString("login")))
+                return true;
+        }
+        DbUtils.disconnectFromDb(connection, statement);
+        return false;
+    }
+
+    public static void deleteLogin(String login) throws SQLException{
+        connection = DbUtils.connectToDb();
+        String query1 = "DELETE FROM user WHERE login = '" + login + "'";
+        preparedStatement = connection.prepareStatement(query1);
+        preparedStatement.execute();
+        DbUtils.disconnectFromDb(connection, preparedStatement);
+    }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
     //Courses//
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -180,11 +202,11 @@ public class DbQuerys {
         connection = DbUtils.connectToDb();
         statement = connection.createStatement();
 
-            String query = "SELECT * FROM course";
-            ResultSet rs1 = statement.executeQuery(query);
-            while (rs1.next()) {
-                courses.add(new Course(rs1.getInt(1), rs1.getString("course_name"), rs1.getString("description")));
-            }
+        String query = "SELECT * FROM course";
+        ResultSet rs1 = statement.executeQuery(query);
+        while (rs1.next()) {
+            courses.add(new Course(rs1.getInt(1), rs1.getString("course_name"), rs1.getString("description")));
+        }
 
         DbUtils.disconnectFromDb(connection, statement);
         return courses;
@@ -192,32 +214,32 @@ public class DbQuerys {
 
     public static void editCourse(Course course, int id) throws SQLException {
 
-            connection = DbUtils.connectToDb();
-            String insertString = "UPDATE course SET course_name = '" + course.getName() + "', description = '" + course.getDescription() + "' where id = '" + id + "'";
-            preparedStatement = connection.prepareStatement(insertString);
-            preparedStatement.execute();
-            DbUtils.disconnectFromDb(connection, preparedStatement);
+        connection = DbUtils.connectToDb();
+        String insertString = "UPDATE course SET course_name = '" + course.getName() + "', description = '" + course.getDescription() + "' where id = '" + id + "'";
+        preparedStatement = connection.prepareStatement(insertString);
+        preparedStatement.execute();
+        DbUtils.disconnectFromDb(connection, preparedStatement);
 
     }
 
     public static void createCourse(Course course, User user) throws SQLException {
-            connection = DbUtils.connectToDb();
-            String insertString = "INSERT INTO Course(`course_name`, `description`) VALUES (?,?)";
-            preparedStatement = connection.prepareStatement(insertString);
-            preparedStatement.setString(1, course.getName());
-            preparedStatement.setString(2, course.getDescription());
-            preparedStatement.execute();
+        connection = DbUtils.connectToDb();
+        String insertString = "INSERT INTO Course(`course_name`, `description`) VALUES (?,?)";
+        preparedStatement = connection.prepareStatement(insertString);
+        preparedStatement.setString(1, course.getName());
+        preparedStatement.setString(2, course.getDescription());
+        preparedStatement.execute();
 
-            int id = DbQuerys.getLatestCreationId("course");
-            course.setId(id);
+        int id = DbQuerys.getLatestCreationId("course");
+        course.setId(id);
 
-            String insertStringForMapping = "INSERT INTO course_access(`user_id`,`course_id`) VALUES (?,?)";
-            preparedStatement = connection.prepareStatement(insertStringForMapping);
-            preparedStatement.setString(1, Integer.toString(user.getId()));
-            preparedStatement.setString(2, Integer.toString(id));
-            preparedStatement.execute();
+        String insertStringForMapping = "INSERT INTO course_access(`user_id`,`course_id`) VALUES (?,?)";
+        preparedStatement = connection.prepareStatement(insertStringForMapping);
+        preparedStatement.setString(1, Integer.toString(user.getId()));
+        preparedStatement.setString(2, Integer.toString(id));
+        preparedStatement.execute();
 
-            DbUtils.disconnectFromDb(connection, preparedStatement);
+        DbUtils.disconnectFromDb(connection, preparedStatement);
     }
 
     public static void deleteCourse(int courseId) throws SQLException {
@@ -257,6 +279,24 @@ public class DbQuerys {
         DbUtils.disconnectFromDb(connection, preparedStatement);
     }
 
+    public static void deleteCourses(int userId) throws SQLException{//testing
+        deleteCourse(getCourseId(userId));
+    }
+
+    public static int getCourseId(int userId) throws SQLException{//testing
+        connection = DbUtils.connectToDb();
+        statement = connection.createStatement();
+        String query = "SELECT course_id FROM course_access WHERE user_id = '" + userId + "'";
+        ResultSet rs = statement.executeQuery(query);
+        int id = 0;
+        while (rs.next()) {
+            id = rs.getInt("course_id");
+        }
+        DbUtils.disconnectFromDb(connection, statement);
+
+        return(id);
+    }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
     //FOLDERS//
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -279,26 +319,26 @@ public class DbQuerys {
 
     public static void createFolder(Folder folder) throws SQLException
     {
-            connection = DbUtils.connectToDb();
-            String insertString = "INSERT INTO folder(`folder_name`, `course_id`, `parent_id`) VALUES (?,?,?)";
-            preparedStatement = connection.prepareStatement(insertString);
-            preparedStatement.setString(1, folder.getName());
-            preparedStatement.setInt(2, folder.getCourseId());
-            preparedStatement.setInt(3, folder.getParentId());
-            preparedStatement.execute();
+        connection = DbUtils.connectToDb();
+        String insertString = "INSERT INTO folder(`folder_name`, `course_id`, `parent_id`) VALUES (?,?,?)";
+        preparedStatement = connection.prepareStatement(insertString);
+        preparedStatement.setString(1, folder.getName());
+        preparedStatement.setInt(2, folder.getCourseId());
+        preparedStatement.setInt(3, folder.getParentId());
+        preparedStatement.execute();
 
-            int id = DbQuerys.getLatestCreationId("folder");
-            folder.setId(id);
+        int id = DbQuerys.getLatestCreationId("folder");
+        folder.setId(id);
 
-            DbUtils.disconnectFromDb(connection, preparedStatement);
+        DbUtils.disconnectFromDb(connection, preparedStatement);
     }
 
     public static void editFolder(Folder folder) throws SQLException{
-            connection = DbUtils.connectToDb();
-            String insertString = "UPDATE folder SET folder_name = '" + folder.getName() + "' WHERE id = '" + folder.getId() + "'";
-            preparedStatement = connection.prepareStatement(insertString);
-            preparedStatement.execute();
-            DbUtils.disconnectFromDb(connection, preparedStatement);
+        connection = DbUtils.connectToDb();
+        String insertString = "UPDATE folder SET folder_name = '" + folder.getName() + "' WHERE id = '" + folder.getId() + "'";
+        preparedStatement = connection.prepareStatement(insertString);
+        preparedStatement.execute();
+        DbUtils.disconnectFromDb(connection, preparedStatement);
     }
 
     public static ArrayList<Folder> getFolders(int courseId) throws SQLException {
@@ -314,6 +354,20 @@ public class DbQuerys {
         }
         DbUtils.disconnectFromDb(connection, statement);
         return folders;
+    }
+
+    public static int getFolderId(int courseId) throws SQLException{//testing
+        connection = DbUtils.connectToDb();
+        statement = connection.createStatement();
+        String query = "SELECT id FROM folder WHERE course_id = '" + courseId + "'";
+        ResultSet rs = statement.executeQuery(query);
+        int id = 0;
+        while (rs.next()) {
+            id = rs.getInt("id");
+        }
+        DbUtils.disconnectFromDb(connection, statement);
+
+        return(id);
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -339,25 +393,25 @@ public class DbQuerys {
 
     public static void createFile(File file) throws SQLException{
 
-            connection = DbUtils.connectToDb();
-            String insertString = "INSERT INTO file(`file_name`, `folder_id`) VALUES (?,?)";
-            preparedStatement = connection.prepareStatement(insertString);
-            preparedStatement.setString(1, file.getName());
-            preparedStatement.setInt(2, file.getFolderId());
-            preparedStatement.execute();
+        connection = DbUtils.connectToDb();
+        String insertString = "INSERT INTO file(`file_name`, `folder_id`) VALUES (?,?)";
+        preparedStatement = connection.prepareStatement(insertString);
+        preparedStatement.setString(1, file.getName());
+        preparedStatement.setInt(2, file.getFolderId());
+        preparedStatement.execute();
 
-            int id = DbQuerys.getLatestCreationId("file");
-            file.setId(id);
+        int id = DbQuerys.getLatestCreationId("file");
+        file.setId(id);
 
-            DbUtils.disconnectFromDb(connection, preparedStatement);
+        DbUtils.disconnectFromDb(connection, preparedStatement);
     }
 
     public static void editFile(File file) throws SQLException {
-            connection = DbUtils.connectToDb();
-            String insertString = "UPDATE file SET file_name = '" + file.getName() + "' where id = '" + file.getId() + "'";
-            preparedStatement = connection.prepareStatement(insertString);
-            preparedStatement.execute();
-            DbUtils.disconnectFromDb(connection, preparedStatement);
+        connection = DbUtils.connectToDb();
+        String insertString = "UPDATE file SET file_name = '" + file.getName() + "' where id = '" + file.getId() + "'";
+        preparedStatement = connection.prepareStatement(insertString);
+        preparedStatement.execute();
+        DbUtils.disconnectFromDb(connection, preparedStatement);
     }
 
     public static void deleteFile(int id) throws SQLException{
