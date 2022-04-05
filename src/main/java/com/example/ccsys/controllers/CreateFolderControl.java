@@ -37,27 +37,6 @@ public class CreateFolderControl {
         this.selectedFolderId = folderId;
     }
 
-    /*public void createFolder(ActionEvent actionEvent) throws SQLException, IOException   {
-        boolean doesExist = false;
-        for(Folder folder : DbQuerys.getFolders(selectedCourse.getId())) {
-            if (folder.getName().equals(this.folderName.getText())) {
-                LoginControl.alertMessage("Folder already exists");
-                doesExist = true;
-                break;
-            }
-        }
-        if(doesExist == false)
-        {
-            try {
-                DbQuerys.createFolder(new Folder(this.selectedFolderId, this.selectedCourse.getId(), this.folderName.getText()));
-                LoginControl.alertMessage("Folder created");
-            } catch (Exception e) {
-                LoginControl.alertMessage("Error creating folder" + e);
-            }
-        }
-        this.goBack();
-    }*/
-
     public void createFolder(ActionEvent actionEvent) throws SQLException, IOException {
         LoginControl.alertMessage(applyFolder(this.selectedCourse.getId(), this.selectedFolderId, this.folderName.getText()));
         this.goBack();
