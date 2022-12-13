@@ -107,7 +107,8 @@ public class MainAdminWindowControl {
         }
     }
 
-    private ArrayList<Course> getCourses(int userIdLike) throws SQLException {
+    private ArrayList<Course> getCourses(int userIdLike) throws SQLException 
+    {
         ArrayList<Course> courses = DbQuerys.getAllCourses();
         this.courses = courses;
         return courses;
