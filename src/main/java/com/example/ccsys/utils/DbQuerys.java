@@ -21,7 +21,7 @@ public class DbQuerys {
         statement = connection.createStatement();
         String query = "SELECT * FROM " + tableName + " WHERE id=(SELECT max(id) FROM " + tableName + ")";
         ResultSet rs = statement.executeQuery(query);
-        int id = 0;
+        String id = 0;
         while (rs.next()) {
             id = rs.getInt(1);
         }
